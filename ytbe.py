@@ -1,11 +1,30 @@
 from tkinter import *
 from tkinter import filedialog
+from pytube import YouTube
+from moviepy.editor import *
+from tkinter import messagebox
+import shutil
 
 root = Tk()
 root.title('Youtube Downloader')
 root.configure(bg='#f0f4f8')
 root.geometry('400x300')
 root.resizable(True, True)
+
+
+def download():
+    video_path = video_url_entry.get()
+    file_path = path_label.cget('text')
+    messagebox.showinfo(title='Status', message='Downloading')
+    try:
+        mp4 = YouTube(video_path).streams.get_highest_resolution().download(output_path=file_path)
+        video_clip = VideoFileClip(mp4)
+        video_clip.close()
+        shutil.move(mp4, file_path)
+        messagebox.showinfo("Download Complete", "✅ Your video has been downloaded successfully.")
+    except Exception as e:
+        messagebox.showerror("Download Failed", f"❌ Error: {e}")
+    
 
 
 def get_path():
@@ -38,7 +57,7 @@ path_btn.pack(pady=(10, 0))
 
 #Downlaod buttton
 download_btn = Button(main_frame, text='Download', font=("Arial", 13, 'bold'),
-                    width=20, bg='#273b7a', fg='#ffffff')
+                    width=20, bg='#273b7a', fg='#ffffff', command=download)
 download_btn.pack(pady=(10, 0))
 
 root.mainloop()
