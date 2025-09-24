@@ -32,6 +32,9 @@ path_btn = Button(main_frame, text='Select', font=("Arial", 13, 'bold'),
                     width=20, bg='#273b7a', fg='#ffffff')
 path_btn.pack(pady=(10, 0))
 
-
+#Downlaod buttton
+download_btn = Button(main_frame, text='Download', font=("Arial", 13, 'bold'),
+                    width=20, bg='#273b7a', fg='#ffffff')
+download_btn.pack(pady=(10, 0))
 
 root.mainloop()
