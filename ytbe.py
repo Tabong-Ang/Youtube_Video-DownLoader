@@ -8,6 +8,10 @@ root.geometry('400x300')
 root.resizable(True, True)
 
 
+def get_path():
+    path = filedialog.askdirectory()
+    path_label.config(text=path)
+
 # Main frame for content
 main_frame = Frame(root, bg='#ffffff', bd=2, relief=RIDGE)
 main_frame.pack(padx=30, pady=30, fill=BOTH, expand=True)
@@ -29,7 +33,7 @@ path_label = Label(main_frame, text='Select Path to Download', font=("Arial", 13
 path_label.pack(pady=(10, 0))
 
 path_btn = Button(main_frame, text='Select', font=("Arial", 13, 'bold'),
-                    width=20, bg='#273b7a', fg='#ffffff')
+                    width=20, bg='#273b7a', fg='#ffffff', command=get_path)
 path_btn.pack(pady=(10, 0))
 
 #Downlaod buttton
