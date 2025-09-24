@@ -1,66 +1,76 @@
 from tkinter import *
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from moviepy.editor import *
-from tkinter import messagebox
 import yt_dlp
+import os
 
+# Initialize main window
 root = Tk()
-root.title('Youtube Downloader')
-root.configure(bg='#f0f4f8')
-root.geometry('600x600')
+root.title("🎬 YouTube Downloader")
+root.geometry("600x600")
+root.configure(bg="#f0f4f8")
 root.resizable(True, True)
 
-
+# Download logic
 def download():
-    video_path = video_url_entry.get()
-    file_path = path_label.cget('text')
-    messagebox.showinfo(title='Status', message='Downloading')
+    video_url = video_url_entry.get().strip()
+    download_path = path_label.cget("text").strip()
+
+    if not video_url or not download_path or download_path == "Select Path to Download":
+        messagebox.showerror("Missing Info", "⚠ Please enter a video URL and select a download path.")
+        return
+
+    messagebox.showinfo("Status", "⏳ Downloading...")
 
     try:
         ydl_opts = {
-            'outtmpl': f'{file_path}/%(title)s.%(ext)s',
+            'outtmpl': f'{download_path}/%(title)s.%(ext)s',
             'format': 'bestvideo+bestaudio/best',
             'merge_output_format': 'mp4'
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([video_path])
+            ydl.download([video_url])
         messagebox.showinfo("Download Complete", "✅ Your video has been downloaded successfully.")
     except Exception as e:
         messagebox.showerror("Download Failed", f"❌ Error: {e}")
-    
 
-
+# Folder picker
 def get_path():
     path = filedialog.askdirectory()
-    path_label.config(text=path)
+    if path:
+        path_label.config(text=path)
 
-# Main frame for content
-main_frame = Frame(root, bg='#ffffff', bd=2, relief=RIDGE)
+# Main frame
+main_frame = Frame(root, bg="#ffffff", bd=2, relief=RIDGE)
 main_frame.pack(padx=30, pady=30, fill=BOTH, expand=True)
 
-app_label = Label(main_frame, text='Video Downloader', fg='#273b7a', 
-                  font=('Arial', 24, 'bold'), bg='#ffffff')
-app_label.pack(pady=(20, 10))
+# Heading
+heading = Label(main_frame, text="🎬 YouTube Downloader", font=("Arial", 24, "bold"), bg="#ffffff", fg="#273b7a")
+heading.pack(pady=(20, 10))
 
-video_url_label = Label(main_frame, text='Enter Video url', font=('Arial', 13),
-                        bg='#ffffff')
+# URL input
+video_url_label = Label(main_frame, text="Enter YouTube Video URL", font=("Arial", 13), bg="#ffffff")
 video_url_label.pack(pady=(10, 0))
 
-video_url_entry = Entry(main_frame, font=("Arial", 13), width=30, bd=2, relief=SOLID)
+video_url_entry = Entry(main_frame, font=("Arial", 13), width=40, bd=2, relief=SOLID)
 video_url_entry.pack(pady=(0, 10))
 
-#path to download videos
-path_label = Label(main_frame, text='Select Path to Download', font=("Arial", 13),
-                   bg='#ffffff')
+# Path selection
+path_label = Label(main_frame, text="Select Path to Download", font=("Arial", 13), bg="#ffffff", fg="#555555")
 path_label.pack(pady=(10, 0))
 
-path_btn = Button(main_frame, text='Select', font=("Arial", 13, 'bold'),
-                    width=20, bg='#273b7a', fg='#ffffff', command=get_path)
+path_btn = Button(main_frame, text="📁 Browse", font=("Arial", 13, "bold"), width=20,
+                  bg="#273b7a", fg="#ffffff", activebackground="#1e2f5a", command=get_path)
 path_btn.pack(pady=(10, 0))
 
-#Downlaod buttton
-download_btn = Button(main_frame, text='Download', font=("Arial", 13, 'bold'),
-                    width=20, bg='#273b7a', fg='#ffffff', command=download)
-download_btn.pack(pady=(10, 0))
+# Download button
+download_btn = Button(main_frame, text="⬇ Download", font=("Arial", 13, "bold"), width=20,
+                      bg="#273b7a", fg="#ffffff", activebackground="#1e2f5a", command=download)
+download_btn.pack(pady=(20, 10))
 
+# Footer
+footer = Label(root, text="© 2025 PhilipsTech | YouTube Video Downloader", font=("Arial", 10), bg="#f0f4f8", fg="#888")
+footer.pack(pady=10)
+
+# Run app
 root.mainloop()
