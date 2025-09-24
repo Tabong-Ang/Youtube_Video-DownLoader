@@ -8,7 +8,7 @@ import shutil
 root = Tk()
 root.title('Youtube Downloader')
 root.configure(bg='#f0f4f8')
-root.geometry('400x300')
+root.geometry('600x600')
 root.resizable(True, True)
 
 
