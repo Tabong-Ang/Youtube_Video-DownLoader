@@ -1,9 +1,8 @@
 from tkinter import *
 from tkinter import filedialog
-from pytube import YouTube
 from moviepy.editor import *
 from tkinter import messagebox
-import shutil
+import yt_dlp
 
 root = Tk()
 root.title('Youtube Downloader')
@@ -16,17 +15,15 @@ def download():
     video_path = video_url_entry.get()
     file_path = path_label.cget('text')
     messagebox.showinfo(title='Status', message='Downloading')
+
     try:
-        mp4 = YouTube(video_path).streams.get_highest_resolution().download(output_path=file_path)
-        video_clip = VideoFileClip(mp4)
-        #mp3 conversion code
-        audio_file = video_clip.audio
-        audio_file.write_audiofile('audio.mp3')
-        audio_file.close()
-        shutil.move('audio.mp3', file_path)
-        #mp3 conversion code
-        video_clip.close()
-        shutil.move(mp4, file_path)
+        ydl_opts = {
+            'outtmpl': f'{file_path}/%(title)s.%(ext)s',
+            'format': 'bestvideo+bestaudio/best',
+            'merge_output_format': 'mp4'
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([video_path])
         messagebox.showinfo("Download Complete", "✅ Your video has been downloaded successfully.")
     except Exception as e:
         messagebox.showerror("Download Failed", f"❌ Error: {e}")
