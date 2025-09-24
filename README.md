@@ -45,7 +45,7 @@ ffmpeg -version
 📦 Usage
 1. Run the app:
 ```bash
-python downloader.py
+python ytbe.py
 ```
 2. Paste a valid YouTube video URL
 3. Click Browse to select your download folder
@@ -55,7 +55,7 @@ python downloader.py
 📁 Project Structure
 ```bash
 YouTube_Downloader/
-├── downloader.py
+├── ytbe.py
 ├── README.md
 ```
 
