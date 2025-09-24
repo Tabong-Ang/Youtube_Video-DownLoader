@@ -23,5 +23,15 @@ video_url_label.pack(pady=(10, 0))
 video_url_entry = Entry(main_frame, font=("Arial", 13), width=30, bd=2, relief=SOLID)
 video_url_entry.pack(pady=(0, 10))
 
+#path to download videos
+path_label = Label(main_frame, text='Select Path to Download', font=("Arial", 13),
+                   bg='#ffffff')
+path_label.pack(pady=(10, 0))
+
+path_btn = Button(main_frame, text='Select', font=("Arial", 13, 'bold'),
+                    width=20, bg='#273b7a', fg='#ffffff')
+path_btn.pack(pady=(10, 0))
+
+
 
 root.mainloop()
