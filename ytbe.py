@@ -4,10 +4,19 @@ from moviepy.editor import *
 import yt_dlp
 import os
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS  # PyInstaller sets this at runtime
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 # Initialize main window
 root = Tk()
 root.title("🎬 YouTube Downloader")
 root.geometry("600x600")
+root.iconbitmap(resource_path('images/photo.ico'))
 root.configure(bg="#f0f4f8")
 root.resizable(True, True)
 
